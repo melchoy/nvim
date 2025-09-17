@@ -1,3 +1,6 @@
+-- TEMPORARILY DISABLED - TODO: Improve UX later
+return
+
 --[[
 Cursor Agent Plugin for Neovim
 
