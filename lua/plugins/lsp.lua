@@ -18,14 +18,24 @@ return {
   },
 	{
     "neovim/nvim-lspconfig",
-    dependencies = { "williamboman/mason-lspconfig.nvim" },
+    dependencies = { 
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+    },
     lazy = false,
     config = function()
       local lspconfig = require("lspconfig")
       
-      -- Manual setup for now (simpler)
-      lspconfig.lua_ls.setup({})
-      lspconfig.ts_ls.setup({})
+      -- Get enhanced capabilities for nvim-cmp
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      
+      -- Setup LSP servers with enhanced capabilities
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.ts_ls.setup({
+        capabilities = capabilities,
+      })
 
       -- Setup keymaps only when LSP attaches to buffer
       vim.api.nvim_create_autocmd('LspAttach', {

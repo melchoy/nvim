@@ -115,7 +115,7 @@ return {
         use_libuv_file_watcher = true, -- Auto-refresh
       },
     })
-		vim.keymap.set('n', '<C-t>', ':Neotree filesystem toggle reveal left<CR>')
+		vim.keymap.set('n', '<C-t>', ':Neotree filesystem toggle left<CR>', { desc = "Toggle file tree" })
 	end
 }
 
