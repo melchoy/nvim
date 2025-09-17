@@ -19,4 +19,4 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
 
-
+-- Test change for gitsigns demo
