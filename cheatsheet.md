@@ -59,6 +59,15 @@ Personal reference for keymaps and essential commands.
 | `/` | Search in file |
 | `n` / `N` | Next/previous search result |
 
+## 📝 Markdown Preview (in .md files)
+
+| Key | Action |
+|-----|--------|
+| `<space>mp` | **Preview with grip (auto browser)** |
+| `<space>mo` | Start grip server (manual browser) |
+| `<space>ms` | Stop all grip processes |
+| `<space>md` | Preview entire directory |
+
 ## 🎯 Essential Vim Motions
 
 | Key | Action |
