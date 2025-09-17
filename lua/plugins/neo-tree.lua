@@ -8,6 +8,11 @@ return {
 	},
 	config = function()
 		require("neo-tree").setup({
+			close_if_last_window = false, -- Don't auto-close when last window
+			popup_border_style = "rounded",
+			enable_git_status = true,
+			enable_diagnostics = true,
+			open_files_do_not_replace_types = { "terminal", "trouble", "qf" },
 			filesystem = {
 				filtered_items = {
 					visible = false,        -- Show filtered items dimmed instead of hidden
