@@ -108,6 +108,14 @@ Personal reference for keymaps and essential commands.
 | `Ctrl+w w` | Cycle through panes |
 | `Ctrl+w =` | Make panes equal size |
 
+## 🎮 Enhanced Features
+
+| Key | Action |
+|-----|--------|
+| `<space>ti` | Toggle indent guides |
+| **Auto-pairs** | Brackets/quotes close automatically |
+| **Which-key** | Shows available keys after `<space>` |
+
 ## 💡 Pro Tips
 
 - **File Finding**: Use `Ctrl+p` instead of clicking through folders
@@ -116,6 +124,7 @@ Personal reference for keymaps and essential commands.
 - **When Lost**: Press `Esc` to get to normal mode, then `:q` to quit
 - **Help**: Press `?` in any Telescope or Neo-tree window for context help
 - **Discovery**: Use `<space>fk` to find keymaps, `<space>fc` for commands
+- **Which-key**: Pause after `<space>` to see all available options
 
 ## 🆘 Emergency Commands
 
