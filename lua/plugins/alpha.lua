@@ -1,8 +1,8 @@
 return {
-  "goolord/alpha-nvim",
-  lazy = false,
-  priority = 1000,
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+	"goolord/alpha-nvim",
+	lazy = false,
+	priority = 1000,
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		local alpha = require("alpha")
 		local dashboard = require("alpha.themes.dashboard")
@@ -17,8 +17,7 @@ return {
 			"  ██║ ╚═╝ ██║███████╗███████╗███████╗███████╗        ",
 			"  ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝╚══════╝        ",
 			"                                                     ",
-			"     ⚡ Powered by Neovim & Supermaven               ",
-			"                                                     ",
+			"  ⚡ Powered by Neovim & Supermaven               ",
 		}
 
 		-- Try to load local override (safe - no error if missing)
@@ -33,7 +32,6 @@ return {
 			dashboard.button("r", "  Recent Files", ":Telescope oldfiles <CR>"),
 			dashboard.button("t", "  File Tree", ":Neotree filesystem toggle left<CR>"),
 			dashboard.button("g", "  Live Grep", ":Telescope live_grep <CR>"),
-			dashboard.button("c", "  Config", ":e ~/.config/nvim/init.lua<CR>"),
 			dashboard.button("l", "  Lazy", ":Lazy<CR>"),
 			dashboard.button("q", "  Quit", ":qa<CR>"),
 		}
@@ -47,25 +45,24 @@ return {
 		-- Setup alpha
 		alpha.setup(dashboard.config)
 
-    -- Show dashboard for directory opening (alpha handles no-args case automatically)
-    vim.api.nvim_create_autocmd("VimEnter", {
-      callback = function()
-        local argc = vim.fn.argc()
-        
-        if argc == 1 then
-          local arg = vim.fn.argv(0)
-          
-          if vim.fn.isdirectory(arg) == 1 then
-            -- Change to the directory
-            vim.cmd('cd ' .. vim.fn.fnameescape(arg))
-            -- Show dashboard for directory
-            vim.schedule(function()
-              alpha.start()
-            end)
-          end
-        end
-      end,
-    })
+		-- Show dashboard for directory opening (alpha handles no-args case automatically)
+		vim.api.nvim_create_autocmd("VimEnter", {
+			callback = function()
+				local argc = vim.fn.argc()
+
+				if argc == 1 then
+					local arg = vim.fn.argv(0)
+
+					if vim.fn.isdirectory(arg) == 1 then
+						-- Change to the directory
+						vim.cmd('cd ' .. vim.fn.fnameescape(arg))
+						-- Show dashboard for directory
+						vim.schedule(function()
+							alpha.start()
+						end)
+					end
+				end
+			end,
+		})
 	end,
 }
-
