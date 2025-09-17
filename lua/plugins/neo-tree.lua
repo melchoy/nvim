@@ -10,17 +10,109 @@ return {
 		require("neo-tree").setup({
 			filesystem = {
 				filtered_items = {
-					visible = true,
+					visible = false,        -- Show filtered items dimmed instead of hidden
           show_hidden_count = true,
           hide_dotfiles = false,
-          hide_gitignored = false,
+          hide_gitignored = true,   -- Hide git-ignored files
           hide_by_name = {
-						-- '.git',
-            -- '.DS_Store',
-            -- 'thumbs.db',
+            -- System files
+            '.DS_Store',
+            'thumbs.db',
+            'desktop.ini',
+            
+            -- Dependencies
+            'node_modules',
+            '.npm',
+            '.yarn',
+            'bower_components',
+            'vendor',
+            '__pycache__',
+            '.venv',
+            'venv',
+            
+            -- Build outputs
+            'dist',
+            'build',
+            '.next',
+            '.nuxt',
+            'out',
+            'target',
+            '.cache',
+            'tmp',
+            'temp',
+            'log',
+            'logs',
+            
+            -- IDE/Editor
+            '.vscode',
+            '.idea',
+            '.vs',
+            '*.swp',
+            '*.swo',
+            '*~',
           },
-          never_show = {},
+          hide_by_pattern = {
+            -- Patterns
+            "*.tmp",
+            "*.log", 
+            "*.pyc",
+            "*.class",
+            "*.o",
+            "*.so",
+            "*.dll",
+            "*.exe",
+          },
+          hide_by_name = {
+            -- System files
+            '.DS_Store',
+            'thumbs.db',
+            'desktop.ini',
+            
+            -- Dependencies
+            'node_modules',
+            '.npm',
+            '.yarn',
+            'bower_components',
+            'vendor',
+            '__pycache__',
+            '.venv',
+            'venv',
+            
+            -- Build outputs
+            'dist',
+            'build',
+            '.next',
+            '.nuxt',
+            'out',
+            'target',
+            '.cache',
+            'tmp',
+            'temp',
+            
+            -- Log files
+            'logs',
+            'log',
+            
+            -- IDE/Editor
+            '.vscode',
+            '.idea',
+            '.vs',
+            '*.swp',
+            '*.swo',
+            '*~',
+          },
+          never_show = {
+            -- Never show these even if forced
+            '.git',
+            '.hg',
+            '.svn',
+          },
         },
+        -- Toggle showing hidden files
+        follow_current_file = {
+          enabled = true,
+        },
+        use_libuv_file_watcher = true, -- Auto-refresh
       },
     })
 		vim.keymap.set('n', '<C-t>', ':Neotree filesystem toggle reveal left<CR>')
