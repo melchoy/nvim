@@ -115,6 +115,14 @@ Personal reference for keymaps and essential commands.
 | `<space>ti` | Toggle indent guides |
 | **Auto-pairs** | Brackets/quotes close automatically |
 | **Which-key** | Shows available keys after `<space>` |
+| **Project config** | Auto-loads `.nvimrc` from project root |
+
+## 📁 Project Configuration
+
+| Command | Action |
+|---------|--------|
+| `:ProjectConfigReload` | Manually reload project config |
+| `:ProjectConfigShow` | Show current project config path |
 
 ## 💡 Pro Tips
 
