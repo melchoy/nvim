@@ -13,12 +13,18 @@ return {
 			enable_git_status = true,
 			enable_diagnostics = true,
 			open_files_do_not_replace_types = { "terminal", "trouble", "qf" },
+			default_component_configs = {
+				container = {
+					enable_character_fade = true
+				},
+			},
 			filesystem = {
+				hijack_netrw_behavior = "disabled", -- Don't hijack directory opening
 				filtered_items = {
 					visible = false,        -- Show filtered items dimmed instead of hidden
           show_hidden_count = true,
           hide_dotfiles = false,
-          hide_gitignored = true,   -- Hide git-ignored files
+          hide_gitignored = false,  -- Show git-ignored files
           hide_by_name = {
             -- System files
             '.DS_Store',
