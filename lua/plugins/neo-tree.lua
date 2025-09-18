@@ -24,7 +24,7 @@ return {
 					visible = false,              -- Show filtered items dimmed instead of hidden
 					show_hidden_count = true,
 					hide_dotfiles = false,
-					hide_gitignored = false, -- Show git-ignored files
+					hide_gitignored = true,  -- Hide git-ignored files
 					hide_by_name = {
 						-- System files
 						'.DS_Store',

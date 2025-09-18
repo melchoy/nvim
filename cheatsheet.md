@@ -124,6 +124,26 @@ Personal reference for keymaps and essential commands.
 | `:ProjectConfigReload` | Manually reload project config |
 | `:ProjectConfigShow` | Show current project config path |
 
+## 💻 Terminal Panel
+
+| Key | Action |
+|-----|--------|
+| `<C-\>` | **Toggle main terminal** (current directory) |
+| `<space>tr` | **Toggle terminal at project root** |
+| `<space>tt` | Toggle horizontal terminal |
+| `<space>tv` | Toggle vertical terminal |
+| `<space>tf` | Toggle floating terminal |
+| `<space>pb` | Project build command |
+| `<space>pt` | Project test command |
+| `<space>pl` | Project lint command |
+
+## 🔍 Advanced Find
+
+| Key | Action |
+|-----|--------|
+| `<space>fH` | **Find ALL files** (including hidden) |
+| `<space>fG` | **Grep ALL files** (including hidden) |
+
 ## 💡 Pro Tips
 
 - **File Finding**: Use `Ctrl+p` instead of clicking through folders

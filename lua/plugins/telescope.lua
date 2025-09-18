@@ -24,6 +24,15 @@ return {
       vim.keymap.set('n', '<leader>fc', builtin.commands, { desc = "Find: Commands" })
       vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = "Find: Keymaps" })
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = "Find: Help" })
+      
+      -- Toggle hidden/ignored files in telescope
+      vim.keymap.set('n', '<leader>fH', function()
+        builtin.find_files({ hidden = true, no_ignore = true })
+      end, { desc = "Find: All files (including hidden/ignored)" })
+      
+      vim.keymap.set('n', '<leader>fG', function()
+        builtin.live_grep({ additional_args = { "--hidden", "--no-ignore" } })
+      end, { desc = "Find: Grep all files (including hidden/ignored)" })
 
       require("telescope").load_extension("ui-select")
     end
