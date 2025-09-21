@@ -17,7 +17,7 @@ return {
       })
     end
   },
-	{
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
@@ -159,6 +159,7 @@ return {
           vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, vim.tbl_extend('force', opts, { desc = "LSP: Previous diagnostic" }))
         end,
       })
-		end
+    end
+    end
   }
 }
