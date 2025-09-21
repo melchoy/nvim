@@ -24,8 +24,19 @@ return {
 					visible = false,              -- Show filtered items dimmed instead of hidden
 					show_hidden_count = true,
 					hide_dotfiles = false,
-					hide_gitignored = true,  -- Hide git-ignored files
+					hide_gitignored = true,           -- Hide git-ignored files
+					-- Always show the `local` directory and common content inside it
+					-- even if it is gitignored by the project
+					always_show = { 'local' },
+					always_show_by_pattern = {
+						"**/local/**",             -- show the folder and all nested content
+						"**/local/*.md",
+						"**/local/**/*.md",
+					},
 					hide_by_name = {
+						-- Project tooling/config dirs
+						'.nvim', '.cursor', '.coderabbit', '.github',
+						'xtra',
 						-- System files
 						'.DS_Store',
 						'thumbs.db',
@@ -65,6 +76,8 @@ return {
 						'*~',
 					},
 					hide_by_pattern = {
+						-- Hide any directory named xtra anywhere
+						"**/xtra/**",
 						-- Patterns
 						"*.tmp",
 						"*.log",
@@ -74,45 +87,6 @@ return {
 						"*.so",
 						"*.dll",
 						"*.exe",
-					},
-					hide_by_name = {
-						-- System files
-						'.DS_Store',
-						'thumbs.db',
-						'desktop.ini',
-
-						-- Dependencies
-						'node_modules',
-						'.npm',
-						'.yarn',
-						'bower_components',
-						'vendor',
-						'__pycache__',
-						'.venv',
-						'venv',
-
-						-- Build outputs
-						'dist',
-						'build',
-						'.next',
-						'.nuxt',
-						'out',
-						'target',
-						'.cache',
-						'tmp',
-						'temp',
-
-						-- Log files
-						'logs',
-						'log',
-
-						-- IDE/Editor
-						'.vscode',
-						'.idea',
-						'.vs',
-						'*.swp',
-						'*.swo',
-						'*~',
 					},
 					never_show = {
 						-- Never show these even if forced

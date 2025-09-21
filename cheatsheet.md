@@ -30,11 +30,13 @@ Personal reference for keymaps and essential commands.
 | Key | Action |
 |-----|--------|
 | `gh` | **Hover info** (types, documentation) |
+| `ge` | **Show diagnostic** (error/warning details) |
 | `<space>ld` | Go to definition |
 | `<space>lr` | Find references |
 | `<space>la` | Code actions (auto-fix, imports) |
 | `<space>ln` | Rename symbol |
 | `<space>lf` | Format file |
+| `]d` / `[d` | Next/previous diagnostic |
 
 ## 🔀 Git Integration
 
@@ -43,11 +45,29 @@ Personal reference for keymaps and essential commands.
 | `<space>dd` | **Unified diff** (+/- view) |
 | `<space>du` | Side-by-side diff |
 | `<space>dc` | Close diff |
+| `<space>dm` | **Merge tool** (3-way view) |
+| `<space>gc` | **Find conflicted files** |
 | `<space>gp` | Preview git hunk |
-| `<space>gs` | Stage hunk |
+| `<space>gs` | **Stage file** |
+| `<space>gsh` | Stage hunk |
+| `<space>gS` | Git status (picker) |
+| `<space>gC` | Git commits (picker) |
+| `<space>gB` | Buffer commits (picker) |
+| `<space>gbr` | Git branches (picker) |
+| `<space>gT` | Git stash (picker) |
 | `<space>gR` | Reset hunk |
 | `]h` / `[h` | Next/previous git change |
 | `<space>gb` | Toggle git blame |
+
+## ⚔️ Conflict Resolution
+
+| Key | Action |
+|-----|--------|
+| `]c` / `[c` | Next/previous conflict marker |
+| `<space>co` | **Keep ours** (delete theirs) |
+| `<space>ct` | **Keep theirs** (delete ours) |
+| `<space>cb` | **Keep both** (remove markers only) |
+| `<space>c#` | Count conflicts in file |
 
 ## 🔍 Search & Discovery
 
@@ -116,6 +136,31 @@ Personal reference for keymaps and essential commands.
 | **Auto-pairs** | Brackets/quotes close automatically |
 | **Which-key** | Shows available keys after `<space>` |
 | **Project config** | Auto-loads `.nvimrc` from project root |
+
+## ✂️ Editing & Motions (Built-in)
+
+| Key | Action |
+|-----|--------|
+| `x` / `X` | Delete char under/before cursor |
+| `dd` / `yy` / `p` | Delete line / Yank line / Paste |
+| `daw` / `yaw` / `ciw` | Delete/ Yank / Change inner word |
+| `dap` / `yap` / `cip` | Delete/ Yank / Change paragraph |
+| `v` / `V` / `<C-v>` | Visual char / line / block mode |
+| `u` / `<C-r>` | Undo / Redo |
+| `>>` / `<<` | Indent / Outdent line |
+| `=` (visual) | Auto-indent selection |
+| `{` / `}` | Previous / Next paragraph/block |
+| `%` | Jump to matching pair ((), {}, []) |
+
+## 📋 System Clipboard
+
+| Key | Action |
+|-----|--------|
+| `"+y` | Yank to system clipboard |
+| `"+p` | Paste from system clipboard |
+| `yy` then `"+p` | Copy line, paste outside nvim |
+| Visual + `"+y` | Copy selection to system clipboard |
+| `:set clipboard=unnamedplus` | (Optional) Use system clipboard by default |
 
 ## 📁 Project Configuration
 

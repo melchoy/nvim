@@ -59,17 +59,17 @@ return {
     vim.keymap.set('n', '<leader>gl', gs.toggle_linehl, { desc = "Git: Toggle line highlighting (inline diff)" })
     vim.keymap.set('n', '<leader>gw', gs.toggle_word_diff, { desc = "Git: Toggle word diff" })
     vim.keymap.set('n', '<leader>gn', gs.toggle_numhl, { desc = "Git: Toggle number column highlighting" })
-    vim.keymap.set('n', '<leader>gs', gs.stage_hunk, { desc = "Git: Stage hunk" })
+    vim.keymap.set('n', '<leader>gs', gs.stage_buffer, { desc = "Git: Stage file" })
+    vim.keymap.set('n', '<leader>gsh', gs.stage_hunk, { desc = "Git: Stage hunk" })
     vim.keymap.set('n', '<leader>gu', gs.undo_stage_hunk, { desc = "Git: Unstage hunk" })
     vim.keymap.set('n', '<leader>gR', gs.reset_hunk, { desc = "Git: Reset hunk" })
     vim.keymap.set('n', '<leader>gb', gs.toggle_current_line_blame, { desc = "Git: Toggle blame" })
 
     -- Visual mode stage/reset
-    vim.keymap.set('v', '<leader>gs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Git: Stage selection" })
+    vim.keymap.set('v', '<leader>gsh', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Git: Stage selection" })
     vim.keymap.set('v', '<leader>gR', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Git: Reset selection" })
 
     -- Buffer operations  
-    vim.keymap.set('n', '<leader>gS', gs.stage_buffer, { desc = "Git: Stage buffer" })
     vim.keymap.set('n', '<leader>gX', gs.reset_buffer, { desc = "Git: Reset buffer" })
 
     -- Navigation

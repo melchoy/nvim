@@ -58,9 +58,35 @@ return {
 
     -- Additional terminal keymaps
     local Terminal = require('toggleterm.terminal').Terminal
+    -- Forward declare helper so it's visible before definition
+    local get_project_root
+
+    -- LazyGit (float) at project root as a dedicated terminal
+    local lazygit_term
+
+    local function toggle_lazygit()
+      if not lazygit_term then
+        lazygit_term = Terminal:new({
+          cmd = "lazygit",
+          direction = "float",
+          hidden = true,
+          close_on_exit = true,
+          float_opts = { border = "rounded" },
+          count = 99, -- keep separate from default ToggleTerm instances
+        })
+      end
+      -- Always launch from detected project root
+      lazygit_term.dir = get_project_root()
+      lazygit_term:toggle()
+    end
+
+    -- Keymap: launch LazyGit
+    vim.keymap.set('n', '<leader>lg', toggle_lazygit, { desc = "LazyGit (project root)" })
+
+    
 
     -- Function to find project root
-    local function get_project_root()
+    function get_project_root()
       -- Try git root first
       local git_root = vim.fn.system('git rev-parse --show-toplevel 2>/dev/null'):gsub('\n', '')
       if vim.v.shell_error == 0 and git_root ~= '' then

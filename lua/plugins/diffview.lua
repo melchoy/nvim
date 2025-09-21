@@ -613,6 +613,135 @@ return {
     vim.keymap.set('n', '<leader>dh', ':DiffviewFileHistory %<CR>', { desc = "Diff: File history" })
     vim.keymap.set('n', '<leader>dm', ':DiffviewOpen --merge-tool<CR>', { desc = "Diff: Merge tool" })
     
+    -- Find conflicted files with telescope
+    vim.keymap.set('n', '<leader>gc', function()
+      local handle = io.popen('git diff --name-only --diff-filter=U 2>/dev/null')
+      if not handle then
+        vim.notify('❌ Failed to get conflicted files', vim.log.levels.ERROR)
+        return
+      end
+      
+      local result = handle:read('*a')
+      handle:close()
+      
+      if result == '' then
+        vim.notify('✅ No conflicted files found', vim.log.levels.INFO)
+        return
+      end
+      
+      local files = {}
+      for file in result:gmatch('[^\r\n]+') do
+        table.insert(files, file)
+      end
+      
+      require('telescope.pickers').new({}, {
+        prompt_title = 'Conflicted Files',
+        finder = require('telescope.finders').new_table({
+          results = files,
+        }),
+        sorter = require('telescope.config').values.generic_sorter({}),
+        attach_mappings = function(prompt_bufnr, map)
+          map('i', '<CR>', function()
+            local selection = require('telescope.actions.state').get_selected_entry()
+            require('telescope.actions').close(prompt_bufnr)
+            vim.cmd('edit ' .. selection.value)
+          end)
+          return true
+        end,
+      }):find()
+    end, { desc = "Git: Find conflicted files" })
+    
     -- Note: When in diffview, press g<C-x> to cycle between layouts
+    
+    -- Direct conflict marker resolution (for large files)
+    -- Navigation to conflict markers
+    vim.keymap.set('n', ']c', function()
+      vim.fn.search('<<<<<<< ')
+    end, { desc = "Next conflict marker" })
+    
+    vim.keymap.set('n', '[c', function()
+      vim.fn.search('<<<<<<< ', 'b')
+    end, { desc = "Previous conflict marker" })
+    
+    -- Conflict resolution functions
+    local function resolve_conflict_ours()
+      local line = vim.fn.search('<<<<<<< ', 'bcW')
+      if line == 0 then 
+        print("❌ No conflict found")
+        return 
+      end
+      
+      local start_line = line
+      local middle_line = vim.fn.search('=======', 'W')
+      local end_line = vim.fn.search('>>>>>>> ', 'W')
+      
+      if middle_line > 0 and end_line > 0 then
+        vim.api.nvim_buf_set_lines(0, middle_line - 1, end_line, false, {})
+        vim.api.nvim_buf_set_lines(0, start_line - 1, start_line, false, {})
+        print("✅ Kept ours, deleted theirs")
+      end
+    end
+    
+    local function resolve_conflict_theirs()
+      local line = vim.fn.search('<<<<<<< ', 'bcW')
+      if line == 0 then 
+        print("❌ No conflict found")
+        return 
+      end
+      
+      local start_line = line
+      local middle_line = vim.fn.search('=======', 'W')
+      local end_line = vim.fn.search('>>>>>>> ', 'W')
+      
+      if middle_line > 0 and end_line > 0 then
+        vim.api.nvim_buf_set_lines(0, start_line - 1, middle_line, false, {})
+        local new_end = vim.fn.search('>>>>>>> ', 'W')
+        if new_end > 0 then
+          vim.api.nvim_buf_set_lines(0, new_end - 1, new_end, false, {})
+        end
+        print("✅ Kept theirs, deleted ours")
+      end
+    end
+    
+    local function resolve_conflict_both()
+      local line = vim.fn.search('<<<<<<< ', 'bcW')
+      if line == 0 then 
+        print("❌ No conflict found")
+        return 
+      end
+      
+      local start_line = line
+      local middle_line = vim.fn.search('=======', 'W')
+      local end_line = vim.fn.search('>>>>>>> ', 'W')
+      
+      if middle_line > 0 and end_line > 0 then
+        vim.api.nvim_buf_set_lines(0, end_line - 1, end_line, false, {})
+        vim.api.nvim_buf_set_lines(0, middle_line - 1, middle_line, false, {})  
+        vim.api.nvim_buf_set_lines(0, start_line - 1, start_line, false, {})
+        print("✅ Kept both changes, removed markers")
+      end
+    end
+    
+    local function count_conflicts()
+      local total = 0
+      local pos = vim.fn.getpos('.')
+      vim.fn.cursor(1, 1)
+      while vim.fn.search('<<<<<<< ', 'W') > 0 do
+        total = total + 1
+      end
+      vim.fn.setpos('.', pos)
+      if total > 0 then
+        print("📊 Found " .. total .. " conflict(s) in file")
+      else
+        print("✅ No conflicts found in file")
+      end
+    end
+    
+    -- Additional conflict resolution keymaps (complement existing diffview ones)
+    vim.keymap.set('n', '<leader>co', resolve_conflict_ours, { desc = "Conflict: Keep ours (direct edit)" })
+    vim.keymap.set('n', '<leader>ct', resolve_conflict_theirs, { desc = "Conflict: Keep theirs (direct edit)" })
+    vim.keymap.set('n', '<leader>cb', resolve_conflict_both, { desc = "Conflict: Keep both (direct edit)" })
+    vim.keymap.set('n', '<leader>c#', count_conflicts, { desc = "Conflict: Count conflicts" })
+    
   end
 }

@@ -168,6 +168,13 @@ return {
       local config_path, project_root = find_project_config(file_dir)
       if config_path then
         load_project_config(config_path, project_root)
+      else
+        -- Even if there is no per-project config file, still apply global rules
+        -- so behaviors like search/globs are consistent across all projects.
+        project_root = project_root or file_dir
+        -- Store project root and apply global rules
+        vim.g.project_root = project_root
+        apply_global_rules(project_root)
       end
     end
     
