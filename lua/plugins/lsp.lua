@@ -68,42 +68,42 @@ return {
         lspconfig.lua_ls.setup({ capabilities = capabilities })
         lspconfig.ts_ls.setup({ capabilities = capabilities })
         lspconfig.eslint.setup({
-        capabilities = capabilities,
-        settings = {
-          codeAction = {
-            disableRuleComment = {
-              enable = true,
-              location = "separateLine"
+          capabilities = capabilities,
+          settings = {
+            codeAction = {
+              disableRuleComment = {
+                enable = true,
+                location = "separateLine"
+              },
+              showDocumentation = {
+                enable = true
+              }
             },
-            showDocumentation = {
-              enable = true
+            codeActionOnSave = {
+              enable = false,  -- We handle this with conform.nvim
+              mode = "all"
+            },
+            format = false,  -- We use conform.nvim/prettier for formatting
+            nodePath = "",
+            onIgnoredFiles = "off",
+            packageManager = "npm",
+            problems = {
+              shortenToSingleLine = false
+            },
+            quiet = false,
+            rulesCustomizations = {},
+            run = "onType",  -- Show diagnostics as you type
+            useESLintClass = false,
+            validate = "on",
+            workingDirectory = {
+              mode = "location"
             }
           },
-          codeActionOnSave = {
-            enable = false,  -- We handle this with conform.nvim
-            mode = "all"
-          },
-          format = false,  -- We use conform.nvim/prettier for formatting
-          nodePath = "",
-          onIgnoredFiles = "off",
-          packageManager = "npm",
-          problems = {
-            shortenToSingleLine = false
-          },
-          quiet = false,
-          rulesCustomizations = {},
-          run = "onType",  -- Show diagnostics as you type
-          useESLintClass = false,
-          validate = "on",
-          workingDirectory = {
-            mode = "location"
-          }
-        },
-        on_attach = function(client, bufnr)
-          -- Disable ESLint formatting (we use prettier via conform.nvim)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
+          on_attach = function(client, bufnr)
+            -- Disable ESLint formatting (we use prettier via conform.nvim)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end,
         })
       end
 
@@ -159,7 +159,6 @@ return {
           vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, vim.tbl_extend('force', opts, { desc = "LSP: Previous diagnostic" }))
         end,
       })
-    end
     end
   }
 }
