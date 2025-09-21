@@ -13,29 +13,28 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = { "lua_ls", "ts_ls" },
         automatic_installation = true,
+        automatic_setup = false,
       })
     end
   },
 	{
     "neovim/nvim-lspconfig",
-    dependencies = { 
+    dependencies = {
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
     lazy = false,
     config = function()
-      local lspconfig = require("lspconfig")
-      
       -- Get enhanced capabilities for nvim-cmp
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      
-      -- Setup LSP servers with enhanced capabilities
-      lspconfig.lua_ls.setup({
+
+      -- Setup LSP servers with enhanced capabilities using new vim.lsp.config API
+      vim.lsp.config.lua_ls = {
         capabilities = capabilities,
-      })
-      lspconfig.ts_ls.setup({
+      }
+      vim.lsp.config.ts_ls = {
         capabilities = capabilities,
-      })
+      }
 
       -- Setup keymaps only when LSP attaches to buffer
       vim.api.nvim_create_autocmd('LspAttach', {
