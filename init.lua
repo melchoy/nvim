@@ -4,6 +4,34 @@ vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.g.mapleader= " "
 
+-- Clipboard integration for macOS
+vim.opt.clipboard = "unnamedplus"
+
+-- Ensure we're using the right clipboard provider on macOS
+if vim.fn.has('macunix') == 1 then
+  vim.g.clipboard = {
+    name = 'macOS-clipboard',
+    copy = {
+      ['+'] = 'pbcopy',
+      ['*'] = 'pbcopy',
+    },
+    paste = {
+      ['+'] = 'pbpaste',
+      ['*'] = 'pbpaste',
+    },
+    cache_enabled = 0,
+  }
+end
+
+-- Toggle soft wrap per-window
+vim.keymap.set('n', '<leader>ww', function()
+  local winopts = vim.wo
+  local enable = not winopts.wrap
+  winopts.wrap = enable
+  winopts.linebreak = enable
+  winopts.breakindent = enable
+end, { desc = 'Toggle wrap (window-local)' })
+
 -- Start Neovim server for nvr integration
 if vim.v.servername == nil or vim.v.servername == "" then
   vim.fn.serverstart(vim.fn.stdpath("run") .. "/nvim")
