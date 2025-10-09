@@ -35,7 +35,7 @@ return {
           },
           hide_by_name = {
             -- Project tooling/config dirs
-            '.nvim', '.cursor', '.coderabbit', '.github',
+            '.nvim', '.cursor', '.claude', '.coderabbit', '.github',
             'xtra',
             -- System files
             '.DS_Store',
