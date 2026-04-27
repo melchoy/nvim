@@ -101,9 +101,45 @@ return {
         follow_current_file = {
           enabled = true,
         },
-        use_libuv_file_watcher = true, -- Auto-refresh
+        use_libuv_file_watcher = true, -- Keep filesystem auto-refresh enabled
       },
     })
+
+    -- Extra git-state refresh for external git actions, throttled to avoid churn.
+    local uv = vim.uv or vim.loop
+    local last_refresh_ms = 0
+    local refresh_scheduled = false
+    local refresh_cooldown_ms = 1200
+    local refresh_debounce_ms = 120
+
+    local refresh_filesystem_debounced = function()
+      if refresh_scheduled then
+        return
+      end
+      refresh_scheduled = true
+
+      local now = uv.now()
+      local since_last = now - last_refresh_ms
+      local delay = refresh_debounce_ms
+      if since_last < refresh_cooldown_ms then
+        delay = refresh_cooldown_ms - since_last
+      end
+
+      vim.defer_fn(function()
+        refresh_scheduled = false
+        local ok, manager = pcall(require, "neo-tree.sources.manager")
+        if ok then
+          manager.refresh("filesystem")
+          last_refresh_ms = uv.now()
+        end
+      end, delay)
+    end
+
+    vim.api.nvim_create_autocmd({ "FocusGained", "TermClose" }, {
+      group = vim.api.nvim_create_augroup("NeotreeGitRefresh", { clear = true }),
+      callback = refresh_filesystem_debounced,
+    })
+
     vim.keymap.set('n', '<C-t>', ':Neotree filesystem toggle left<CR>', { desc = "Toggle file tree" })
   end
 }
