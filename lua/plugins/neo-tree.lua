@@ -32,6 +32,8 @@ return {
             "**/local/**",             -- show the folder and all nested content
             "**/local/*.md",
             "**/local/**/*.md",
+            "**/TODO.md",
+            "**/*-TODO.md",
           },
           hide_by_name = {
             -- Project tooling/config dirs
