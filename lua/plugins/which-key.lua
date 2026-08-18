@@ -20,7 +20,7 @@ return {
         { "<leader>g", group = "git" },
         { "<leader>d", group = "diff" },
         { "<leader>l", group = "lsp" },
-        { "<leader>m", group = "markdown" },
+        { "<leader>o", group = "open" },
         { "<leader>t", group = "toggle" },
       },
       keys = {

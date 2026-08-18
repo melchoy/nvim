@@ -25,11 +25,12 @@ return {
           show_hidden_count = true,
           hide_dotfiles = false,
           hide_gitignored = true,           -- Hide git-ignored files
-          -- Always show the `local` directory and common content inside it
-          -- even if it is gitignored by the project
-          always_show = { 'local' },
+          -- Always show local workspace directories and their contents,
+          -- even if they are gitignored by the project.
+          always_show = { 'local', 'scratch' },
           always_show_by_pattern = {
             "**/local/**",             -- show the folder and all nested content
+            "**/scratch/**",
             "**/local/*.md",
             "**/local/**/*.md",
             "**/TODO.md",

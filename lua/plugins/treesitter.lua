@@ -1,40 +1,45 @@
-return  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-        -- Map fenced code blocks in Markdown to filetypes/highlighters
-        vim.g.markdown_fenced_languages = {
-            'ts=typescript',
-            'tsx=typescriptreact',
-            'js=javascript',
-            'jsx=javascriptreact',
-            'graphql=graphql',
-            'rb=ruby',
-            'bash=sh',
-            'shell=sh',
-            'yaml=yaml',
-            'json=json',
-        }
+local ensure_installed = {
+  -- Core/editor
+  "lua",
+  "vim",
+  "vimdoc",
+  -- Markdown
+  "markdown",
+  "markdown_inline",
+  -- Web/TS
+  "tsx",
+  "typescript",
+  "javascript",
+  "graphql",
+  "json",
+  "yaml",
+  -- Other languages used in docs
+  "ruby",
+  "bash",
+  -- Existing languages
+  "go",
+  "python",
+}
 
-        local config = require("nvim-treesitter.configs")
-        config.setup({
-            ensure_installed = {
-                -- Core/editor
-                "lua", "vim", "vimdoc",
-                -- Markdown
-                "markdown", "markdown_inline",
-                -- Web/TS
-                "tsx", "typescript", "javascript", "graphql", "json", "yaml",
-                -- Other langs used in docs
-                "ruby", "bash",
-                -- Keep existing ones
-                "go", "python",
-            },
-            highlight = {
-                enable = true,
-                additional_vim_regex_highlighting = false,
-            },
-            indent = { enable = true },
-        })
-    end
+return {
+  "nvim-treesitter/nvim-treesitter",
+  branch = "main",
+  lazy = false,
+  build = ":TSUpdate",
+  config = function()
+    local treesitter = require("nvim-treesitter")
+
+    treesitter.setup({})
+    treesitter.install(ensure_installed)
+
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("TreesitterConfig", { clear = true }),
+      callback = function(event)
+        local started = pcall(vim.treesitter.start, event.buf)
+        if started then
+          vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
+      end,
+    })
+  end,
 }

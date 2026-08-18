@@ -79,14 +79,11 @@ Personal reference for keymaps and essential commands.
 | `/` | Search in file |
 | `n` / `N` | Next/previous search result |
 
-## 📝 Markdown Preview (in .md files)
+## 🌐 Open Externally
 
 | Key | Action |
 |-----|--------|
-| `<space>mp` | **Preview with grip (auto browser)** |
-| `<space>mo` | Start grip server (manual browser) |
-| `<space>ms` | Stop all grip processes |
-| `<space>md` | Preview entire directory |
+| `<space>ob` | Open current file in the default browser |
 
 ## 🎯 Essential Vim Motions
 
