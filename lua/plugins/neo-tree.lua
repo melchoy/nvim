@@ -20,6 +20,13 @@ return {
       },
       filesystem = {
         hijack_netrw_behavior = "disabled", -- Don't hijack directory opening
+        window = {
+          mappings = {
+            -- Explicitly preserve Neo-tree's hidden-item toggle. This avoids
+            -- relying on the plugin default being merged by the config.
+            ["H"] = "toggle_hidden",
+          },
+        },
         filtered_items = {
           visible = false,              -- Show filtered items dimmed instead of hidden
           show_hidden_count = true,
@@ -96,6 +103,30 @@ return {
             '.git',
             '.hg',
             '.svn',
+            -- Keep dependency and build noise hidden even when filtered
+            -- items are toggled visible in Neo-tree.
+            'node_modules',
+            'dist',
+            'build',
+            '.next',
+            '.nuxt',
+            'out',
+            'target',
+            '__pycache__',
+            '.venv',
+            'venv',
+            'vendor',
+            '.cache',
+            'tmp',
+            'temp',
+            'logs',
+            'log',
+          },
+          never_show_by_pattern = {
+            '**/node_modules/**',
+            '**/.pnpm-store/**',
+            '**/dist/**',
+            '**/build/**',
           },
         },
         -- Toggle showing hidden files
