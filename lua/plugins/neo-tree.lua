@@ -23,7 +23,7 @@ return {
         filtered_items = {
           visible = false,              -- Show filtered items dimmed instead of hidden
           show_hidden_count = true,
-          hide_dotfiles = false,
+          hide_dotfiles = true,
           hide_gitignored = true,           -- Hide git-ignored files
           -- Always show local workspace directories and their contents,
           -- even if they are gitignored by the project.
