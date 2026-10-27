@@ -7,6 +7,7 @@ return {
     "MunifTanjim/nui.nvim",
   },
   config = function()
+    local git_refresh = require("config.neotree-git-refresh")
     require("neo-tree").setup({
       close_if_last_window = false, -- Don't auto-close when last window
       popup_border_style = "rounded",
@@ -25,6 +26,7 @@ return {
             -- Explicitly preserve Neo-tree's hidden-item toggle. This avoids
             -- relying on the plugin default being merged by the config.
             ["H"] = "toggle_hidden",
+            ["R"] = git_refresh.refresh,
           },
         },
         filtered_items = {
@@ -137,40 +139,7 @@ return {
       },
     })
 
-    -- Extra git-state refresh for external git actions, throttled to avoid churn.
-    local uv = vim.uv or vim.loop
-    local last_refresh_ms = 0
-    local refresh_scheduled = false
-    local refresh_cooldown_ms = 1200
-    local refresh_debounce_ms = 120
-
-    local refresh_filesystem_debounced = function()
-      if refresh_scheduled then
-        return
-      end
-      refresh_scheduled = true
-
-      local now = uv.now()
-      local since_last = now - last_refresh_ms
-      local delay = refresh_debounce_ms
-      if since_last < refresh_cooldown_ms then
-        delay = refresh_cooldown_ms - since_last
-      end
-
-      vim.defer_fn(function()
-        refresh_scheduled = false
-        local ok, manager = pcall(require, "neo-tree.sources.manager")
-        if ok then
-          manager.refresh("filesystem")
-          last_refresh_ms = uv.now()
-        end
-      end, delay)
-    end
-
-    vim.api.nvim_create_autocmd({ "FocusGained", "TermClose" }, {
-      group = vim.api.nvim_create_augroup("NeotreeGitRefresh", { clear = true }),
-      callback = refresh_filesystem_debounced,
-    })
+    git_refresh.setup()
 
     vim.keymap.set('n', '<C-t>', ':Neotree filesystem toggle left<CR>', { desc = "Toggle file tree" })
   end
